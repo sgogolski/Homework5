@@ -1,0 +1,15 @@
+---
+title: "Homework5"
+author: "Susan Gogolski"
+date: "2024-11-01"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+W
+
