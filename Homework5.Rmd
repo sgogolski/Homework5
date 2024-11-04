@@ -5,6 +5,58 @@ date: "2024-11-01"
 output: pdf_document
 ---
 
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(ggthemes)
+library(conflicted)
+library(purrr)
+library(scales)
+library(tigris)
+library(devtools)
+```
+```{r}
+homicides <- read_csv("/Users/s/Desktop/Homework5/Homework5/data/homicide-data.csv")
+```
+```{r}
+homicides$city_name <- paste(homicides$city, homicides$state, sep = ", ")
+```
+```{r}
+location_Denver <- homicides %>%
+  dplyr::filter(city_name == "Denver, CO")
+```
+```{r}
+location_Denver_1 <- location_Denver %>%
+  select(lon, lat, victim_race, disposition)
+```
+```{r}
+location_Denver_1$Solved <- ifelse(location_Denver_1$disposition == "Open/No arrest", "Unsolved", "Solved")
+```
+```{r}
+library(sf)
+```
+```{r}
+co_counties <- counties(state = "CO", cb = TRUE, class = "sf")
+class(co_counties)
+```
+
+```{r}
+denver <- co_counties %>%
+  dplyr::filter(NAME == "Denver")
+denver
+```
+```{r}
+denver_tracts <- tracts("CO", "Denver")
+```
+```{r}
+library(ggplot2)
+
+ggplot() +
+  geom_sf(data = denver, color = "lightgray") +
+  geom_sf(data = denver_tracts) +
+  geom_point(data = location_Denver_1, mapping = aes(x = lon, y = lat), color = "red") +
+  theme_void()
+```
 
 
 
