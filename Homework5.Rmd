@@ -38,14 +38,12 @@ group_by(victim_race) %>%
   summarise(homicide_counts = n())
 ```
 ```{r}
-library(forcats)
-```
-```{r}
 homicide_counts <- homicide_counts %>%
   arrange(desc(homicide_counts))
 ```
 ```{r}
-homicide_counts$victim_race_grouped <- fct_lump(homicide_counts$victim_race, n = 3)
+location_Denver_one$victim_race <- fct_lump_n(location_Denver_one$victim_race, n = 3, other_level = "Other")
+unique(location_Denver_one$victim_race)
 ```
 ```{r}
 location_Denver_one$Solved <- ifelse(location_Denver_one$disposition == "Open/No arrest", "Unsolved", "Solved")
@@ -73,7 +71,8 @@ library(ggplot2)
 ggplot() +
   geom_sf(data = denver, color = "lightgray") +
   geom_sf(data = denver_tracts) +
-  geom_point(data = location_Denver_1, mapping = aes(x = lon, y = lat), color = "red") +
+  geom_point(data = location_Denver_one, mapping = aes(x = lon, y = lat, color = victim_race), size = .5) +
+  facet_wrap(~Solved) +
   theme_void()
 ```
 
