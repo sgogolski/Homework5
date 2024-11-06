@@ -23,7 +23,8 @@ homicides$city_name <- paste(homicides$city, homicides$state, sep = ", ")
 ```
 ```{r}
 location_Denver <- homicides %>%
-  dplyr::filter(city_name == "Denver, CO")
+  dplyr::filter(city_name == "Denver, CO") %>%
+  dplyr::select(lon, lat, victim_race, disposition)
 ```
 ```{r}
 location_Denver_one <- location_Denver %>%
@@ -31,15 +32,6 @@ location_Denver_one <- location_Denver %>%
 ```
 ```{r}
 library(forcats)
-```
-```{r}
-homicide_counts <- location_Denver_one %>%
-group_by(victim_race) %>%
-  summarise(homicide_counts = n())
-```
-```{r}
-homicide_counts <- homicide_counts %>%
-  arrange(desc(homicide_counts))
 ```
 ```{r}
 location_Denver_one$victim_race <- fct_lump_n(location_Denver_one$victim_race, n = 3, other_level = "Other")
