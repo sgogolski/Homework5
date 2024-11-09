@@ -14,6 +14,8 @@ library(purrr)
 library(scales)
 library(tigris)
 library(devtools)
+library(forcats)
+library(sf)
 ```
 ```{r}
 homicides <- read_csv("/Users/s/Desktop/Homework5/Homework5/data/homicide-data.csv")
@@ -28,22 +30,24 @@ location_Denver <- homicides %>%
 ```
 ```{r}
 location_Denver_one <- location_Denver %>%
-  select(lon, lat, victim_race, disposition)
+  select(lon, lat, victim_race, disposition) 
 ```
 ```{r}
-library(forcats)
+location_Denver_one$victim_race <- forcats::fct_infreq(location_Denver_one$victim_race)
+```
+
+```{r}
+levels(location_Denver_one$victim_race)
 ```
 ```{r}
 location_Denver_one$victim_race <- fct_lump_n(location_Denver_one$victim_race, n = 3, other_level = "Other")
-unique(location_Denver_one$victim_race)
 ```
+
+
 ```{r}
 location_Denver_one$Solved <- ifelse(location_Denver_one$disposition == "Open/No arrest", "Unsolved", "Solved")
 ```
 
-```{r}
-library(sf)
-```
 ```{r}
 co_counties <- counties(state = "CO", cb = TRUE, class = "sf")
 class(co_counties)
