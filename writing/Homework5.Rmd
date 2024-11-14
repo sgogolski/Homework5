@@ -70,6 +70,7 @@ ggplot() +
              size = 0.7, alpha = 0.7) +
   facet_wrap(~Solved) +
   scale_color_brewer(palette = "Set1") +
+  labs(color = "Races") +
   theme_void() +
   ggtitle("Number of homicides in Denver, CO") +
   theme(strip.text = element_text(size = 14, face = "bold"),
