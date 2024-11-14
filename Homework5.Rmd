@@ -16,6 +16,7 @@ library(tigris)
 library(devtools)
 library(forcats)
 library(sf)
+library(RColorBrewer)
 ```
 ```{r}
 homicides <- read_csv("/Users/s/Desktop/Homework5/Homework5/data/homicide-data.csv")
@@ -62,14 +63,19 @@ denver
 denver_tracts <- tracts("CO", "Denver")
 ```
 ```{r}
-library(ggplot2)
-
 ggplot() +
-  geom_sf(data = denver, color = "lightgray") +
-  geom_sf(data = denver_tracts) +
-  geom_point(data = location_Denver_one, mapping = aes(x = lon, y = lat, color = victim_race), size = .5) +
+  geom_sf(data = denver, color = "lightgray", fill = "white") +
+  geom_sf(data = denver_tracts, color = "darkgray", fill = NA, size = 0.3) +
+  geom_point(data = location_Denver_one, mapping = aes(x = lon, y = lat, color = victim_race), 
+             size = 0.7, alpha = 0.7) +
   facet_wrap(~Solved) +
-  theme_void()
+  scale_color_brewer(palette = "Set1") +
+  theme_void() +
+  ggtitle("Number of homicides in Denver, CO") +
+  theme(strip.text = element_text(size = 14, face = "bold"),
+        legend.title = element_text(size = 12, face = "bold"),
+        legend.text = element_text(size = 10),
+        plot.title = element_text (size = 18, face = "bold", hjust = 0.5))
 ```
 
 
